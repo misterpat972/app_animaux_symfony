@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Afficher de l'animal{% endblock %}
+    
+    {% block monTitre %}L'animal {{ animal.nom }}{% endblock %}
+    
+    {% block body %}
+        <div class="row align-items-center">
+            <div class="col-6 text-center">
+                <img class="mt-5" src="{{ asset('images/' ~ animal.image)}}" alt="{{ animal.image }}">          
+            </div>
+            <div class="col-auto">                
+                <p>Description : 
+                    {{ animal.description }}
+                </p>
+                <p>Poids : 
+                    {{animal.poids}}
+                </p>
+                <div> Dangerosité :
+               {% if animal.dangereux %}
+                        <p>cette animal est dangereux</p>
+                    {% else %}
+                       <p>cette animal n'est pas dangereux</p>
+               {% endif %}
+            <div class="row">           
+            <div class="col-6">
+            <p><a href="{{ path('afficher_famille', {'id' : animal.famille.id}) }}" class="btn btn-primary">{{ animal.famille.libelle }}</a></p>
+            </div>
+            {# on boucle sur chaque animal pour afficher leur continents #}            
+            <div class="col-6">
+            {% for continent in animal.continents %}                               
+            <p><a href="{{ path('afficher_continent', {'id': continent.id }) }}" class="btn btn-warning">{{ continent.libelle }}</a></p>                          
+            {% endfor %}
+            <div>
+                {% for disopose in animal.disposes %}
+                        <h2><a href=" {{ path('afficher_personne', {'id': disopose.personne.id }) }} " class="btn btn-info"> {{ disopose.personne.nom }} </a></h2>
+                {% endfor %}
+            </div> 
+            </div> 
+            </div>            
+        </div>
+    {% endblock %}
+    
+   

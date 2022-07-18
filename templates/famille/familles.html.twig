@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les Familes d'animaux{% endblock %}
+
+{% block monTitre %} Liste de Famille d'animaux {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+<table class="table text-center">
+    <thead>
+      <tr>        
+        <th scope="col">Libelle</th>
+        <th scope="col">Description</th>
+        <th scope="col">liste des animaux dans une famille</th>       
+      </tr>
+    </thead>
+    {% for famille in familles %}          
+    <tbody>
+      <tr>
+        {# (capitalize) permet de mettre en majuscule la première lettre #}
+        <td><a href=" {{ path('afficher_famille', {'id' : famille.id}) }}">{{ famille.libelle|capitalize }}</a></td>
+        <td>{{famille.description}}</td> 
+        {% for animal in famille.animaux %}
+        <td>
+        <div class="align-items-center mt-5">
+          <div class="col text-center">
+              {# récupère l'image #}
+              <img class="mt-5" src="{{ asset('images/' ~ animal.image)}}" alt="{{ animal.image }}">          
+          </div>
+          <div class="col-auto">
+              {# récupérère l'id de l'animal  #}
+              <a href="{{ path('afficher_animal', {'id': animal.id })}}"><h3>{{ animal.nom }}</h3></a>
+              <p>{{ animal.description }}</p>              
+            </div>
+            {# liste le continent de l'animal #}
+            <div class="col">
+              {% for continent in animal.continents %}                               
+              <p><a href="{{ path('afficher_continent', {'id': continent.id }) }}" class="btn btn-warning">{{ continent.libelle }}</a></p>                          
+              {% endfor %}
+              </div>         
+      </div>
+    </td>
+        {% endfor %}     
+    </tr>    
+</tbody>
+{% endfor %}
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Animaux{% endblock %}
+
+{# titre de la page _reference base.html.twig #}
+{% block monTitre %}Liste des Animaux{% endblock %}
+
+{# block body #}
+{% block body %}
+{# seconde titre qui s'affiche #}
+<h2 class="p-2 m-2">voici les animaux</h2>
+{# foreach des animaux pour afficher tout les animaux #}
+{% for animal in animaux %}
+    <div class="row align-items-center">
+        <div class="col-2 text-center">
+            {# récupère l'image #}
+            <img class="mt-5" src="{{ asset('images/' ~ animal.image)}}" alt="{{ animal.image }}">          
+        </div>
+        <div class="col-auto mt-5">           
+            {# récupérère l'id de l'animal pour ensuite le passer dans l'url #}
+            <h2><a href="{{ path('afficher_animal', {'id': animal.id })}}">{{ animal.nom }}</a></h2>
+            <p>{{ animal.description }}</p>
+            {# récupère la famille d'animaux avec l'url #}            
+            <p><a href="{{ path('afficher_famille', {'id' : animal.famille.id}) }}" class="btn btn-primary">{{ animal.famille.libelle }}</a></p>
+            {# on boucle sur chaque animal pour afficher leur continents #}            
+            {% for continent in animal.continents %}                               
+                    <p><a href="{{ path('afficher_continent', {'id': continent.id }) }}" class="btn btn-warning">{{ continent.libelle }}</a></p>                          
+            {% endfor %}                
+            <div class="col-auto mt-2" >
+                {% for disopose in animal.disposes %}
+                        <h2><a href=" {{ path('afficher_personne', {'id': disopose.personne.id }) }} " class="btn btn-info"> {{ disopose.personne.nom }} </a></h2>
+                {% endfor %}
+            </div> 
+        </div>
+    </div>
+    {% endfor %}   
+{% endblock %}

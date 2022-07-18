@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+{# titre de l'onglet #}
+{% block title %}Continent{% endblock %}
+{# titre de la page #}
+{% block monTitre %}Continent {{ continent.libelle }}{% endblock %}
+
+
+{% block body %}
+{# affichage de la famille #}  
+<h2 class="p-2 m-2">{{ continent.libelle }}</h2>
+<div class="container"> 
+<div class="row mt-5">
+    {% for animal in continent.animaux %}      
+    <div
+    class="col-6">
+    <div class=" row align-items-center">
+        <div class="col-12 col-md-6 col-lg-2 text-center">
+               {# récupère l'image #}
+                <img class="img-fluid" src="{{ asset('images/' ~ animal.image)}}" alt="{{ animal.image }}">
+        </div>           
+         <div class="col text-center">  
+            {# récupérère l'id de l'animal  #}
+           <h3><a href="{{ path('afficher_animal', {'id': animal.id })}}">{{ animal.nom }}</a></h3>             
+            <div>{{ animal.description }}</div>
+            {# récupère la famille d'animaux #}
+            <div><a href="{{ path('animaux') }}" class="btn btn-primary">Retour à la liste</a></div>              
+        </div>
+        <div class="col">
+            {% for continentAnimal in animal.continents %}    
+               {% if continentAnimal.id != continent.id %}                   
+            <p><a href="{{ path('afficher_continent', {'id': continentAnimal.id }) }}" class="btn btn-warning">{{ continentAnimal.libelle }}</a></p>                          
+            {% endif %} 
+            {% endfor %}
+            </div>             
+    </div>  
+    </div>
+    {% endfor %}        
+</div>
+</div> 
+{% endblock %}
